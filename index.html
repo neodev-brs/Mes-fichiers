@@ -26,15 +26,14 @@
       background: var(--background-default-grey);
     }
 
-    .app-filelist .fr-table {
-      margin-bottom: 0;
-    }
+    .app-filelist .fr-table { margin-bottom: 0; }
 
     @media (prefers-reduced-motion: reduce) {
       html:focus-within { scroll-behavior: auto; }
     }
   </style>
 </head>
+
 <body>
   <header role="banner" class="fr-header">
     <div class="fr-header__body">
@@ -78,217 +77,223 @@
       </div>
 
       <!-- Étape 1 : Import -->
-      <section class="fr-card fr-card--no-arrow fr-mb-3w" aria-labelledby="import-title">
-        <div class="fr-card__body">
-          <div class="fr-card__content">
-            <h3 id="import-title" class="fr-card__title">1. Import</h3>
-            <p class="fr-text--sm fr-mb-2w">
-            Tu peux importer un ou plusieurs fichiers d’un coup. Si tu mélanges plusieurs types, tu pourras choisir quel groupe traiter.
-            </p>
+      <div id="page-import" class="app-page">
+        <section class="fr-card fr-card--no-arrow fr-mb-3w" aria-labelledby="import-title">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 id="import-title" class="fr-card__title">1. Import</h3>
 
-            <div class="fr-upload-group fr-mt-2w">
-              <label class="fr-label" for="upload-any">
-                Ajouter des fichiers
-                <span class="fr-hint-text">PDF, images, audio, vidéo, documents bureautiques…</span>
-              </label>
-              <input class="fr-upload" type="file" id="upload-any" name="upload-any" multiple />
-            </div>
+              <p class="fr-text--sm fr-mb-2w">
+                Tu peux importer un ou plusieurs fichiers d’un coup. Si tu mélanges plusieurs types, tu pourras choisir quel groupe traiter.
+              </p>
 
-            <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-2w">
-              <button class="fr-btn fr-btn--secondary" type="button" id="reset-btn" disabled>
-                Réinitialiser
-              </button>
+              <div class="fr-upload-group fr-mt-2w">
+                <label class="fr-label" for="upload-any">
+                  Ajouter des fichiers
+                  <span class="fr-hint-text">PDF, images, audio, vidéo, documents bureautiques…</span>
+                </label>
+                <input class="fr-upload" type="file" id="upload-any" name="upload-any" multiple />
+              </div>
+
+              <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-2w">
+                <button class="fr-btn" type="button" id="next-to-detect" disabled>Continuer</button>
+                <button class="fr-btn fr-btn--secondary" type="button" id="reset-btn" disabled>Réinitialiser</button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <!-- Étape 2 : Détection -->
-      <section class="fr-card fr-card--no-arrow fr-mb-3w app-hidden" id="detect-card" aria-labelledby="detect-title">
-        <div class="fr-card__body">
-          <div class="fr-card__content">
-            <h3 id="detect-title" class="fr-card__title">2. Détection</h3>
+      <div id="page-detect" class="app-page app-hidden">
+        <section class="fr-card fr-card--no-arrow fr-mb-3w" id="detect-card" aria-labelledby="detect-title">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 id="detect-title" class="fr-card__title">2. Détection</h3>
 
-            <div class="fr-alert fr-alert--warning fr-mt-2w app-hidden" role="alert" id="mix-alert">
-              <p class="fr-alert__title">Plusieurs types de fichiers détectés</p>
-              <p class="fr-alert__desc fr-text--sm">Choisis un groupe à traiter. Les autres resteront importés mais ne seront pas traités dans cette passe.</p>
-            </div>
-
-            <div class="fr-callout fr-mt-2w" id="detect-summary" aria-live="polite"></div>
-
-            <fieldset class="fr-fieldset fr-mt-3w app-hidden" id="category-chooser" aria-labelledby="category-legend">
-              <legend class="fr-fieldset__legend fr-text--regular" id="category-legend">
-                Groupe à traiter
-              </legend>
-              <div class="fr-fieldset__content" id="category-radios"></div>
-            </fieldset>
-
-            <div class="app-filelist fr-mt-3w" aria-label="Liste des fichiers importés">
-              <div class="fr-table fr-table--multiline fr-table--no-scroll">
-                <table>
-                  <caption>Fichiers importés</caption>
-                  <thead>
-                    <tr>
-                      <th scope="col" class="fr-col--lg">Nom</th>
-                      <th scope="col" class="fr-col--sm">Type détecté</th>
-                      <th scope="col" class="fr-col--sm">Taille</th>
-                    </tr>
-                  </thead>
-                  <tbody id="files-tbody"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-3w">
-              <button class="fr-btn" type="button" id="continue-btn" disabled>
-                Continuer vers les options
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Étape 3 : Options -->
-      <section class="fr-card fr-card--no-arrow fr-mb-3w app-hidden" id="options-card" aria-labelledby="options-title">
-        <div class="fr-card__body">
-          <div class="fr-card__content">
-            <h3 id="options-title" class="fr-card__title">3. Options compatibles</h3>
-            <p class="fr-card__desc fr-text--sm" id="options-desc">—</p>
-
-            <form id="options-form">
-              <!-- PDF -->
-              <div class="app-hidden" data-panel="pdf">
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="pdf-action">Action PDF</label>
-                  <select class="fr-select" id="pdf-action" name="pdf-action">
-                    <option value="merge" selected>Fusionner</option>
-                    <option value="extract">Extraire des pages</option>
-                    <option value="reorder">Réorganiser des pages</option>
-                  </select>
-                </div>
-
-                <div class="fr-input-group fr-mt-2w" id="pdf-pages-group">
-                  <label class="fr-label" for="pdf-pages">
-                    Pages concernées
-                    <span class="fr-hint-text">Exemple : 1-3,5,7-9</span>
-                  </label>
-                  <input class="fr-input" id="pdf-pages" name="pdf-pages" type="text" placeholder="1-3,5,7-9" />
-                </div>
-
-                <div class="fr-checkbox-group fr-mt-2w">
-                  <input type="checkbox" id="pdf-single" name="pdf-single" checked />
-                  <label class="fr-label" for="pdf-single">Produire un PDF final unique</label>
-                </div>
+              <div class="fr-alert fr-alert--warning fr-mt-2w app-hidden" role="alert" id="mix-alert">
+                <p class="fr-alert__title">Plusieurs types de fichiers détectés</p>
+                <p class="fr-alert__desc fr-text--sm">
+                  Choisis un groupe à traiter. Les autres resteront importés mais ne seront pas traités dans cette passe.
+                </p>
               </div>
 
-              <!-- Images -->
-              <div class="app-hidden" data-panel="images">
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="img-output">Format de sortie</label>
-                  <select class="fr-select" id="img-output" name="img-output">
-                    <option value="jpg" selected>JPEG</option>
-                    <option value="png">PNG</option>
-                    <option value="webp">WEBP</option>
-                    <option value="pdf">PDF</option>
-                  </select>
-                </div>
+              <div class="fr-callout fr-mt-2w" id="detect-summary" aria-live="polite"></div>
 
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="img-quality">Profil</label>
-                  <select class="fr-select" id="img-quality" name="img-quality">
-                    <option value="high" selected>Qualité</option>
-                    <option value="balanced">Équilibré</option>
-                    <option value="light">Léger</option>
-                  </select>
-                </div>
+              <fieldset class="fr-fieldset fr-mt-3w app-hidden" id="category-chooser" aria-labelledby="category-legend">
+                <legend class="fr-fieldset__legend fr-text--regular" id="category-legend">Groupe à traiter</legend>
+                <div class="fr-fieldset__content" id="category-radios"></div>
+              </fieldset>
 
-                <div class="fr-checkbox-group fr-mt-2w">
-                  <input type="checkbox" id="img-keep-metadata" name="img-keep-metadata" />
-                  <label class="fr-label" for="img-keep-metadata">Conserver les métadonnées si possible</label>
-                </div>
-              </div>
-
-              <!-- Audio -->
-              <div class="app-hidden" data-panel="audio">
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="aud-output">Format de sortie</label>
-                  <select class="fr-select" id="aud-output" name="aud-output">
-                    <option value="mp3" selected>MP3</option>
-                    <option value="wav">WAV</option>
-                    <option value="aac">AAC</option>
-                    <option value="ogg">OGG</option>
-                    <option value="flac">FLAC</option>
-                  </select>
-                </div>
-
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="aud-bitrate">Débit cible</label>
-                  <select class="fr-select" id="aud-bitrate" name="aud-bitrate">
-                    <option value="320" selected>320 kb/s</option>
-                    <option value="256">256 kb/s</option>
-                    <option value="192">192 kb/s</option>
-                    <option value="128">128 kb/s</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Vidéos -->
-              <div class="app-hidden" data-panel="videos">
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="vid-output">Format de sortie</label>
-                  <select class="fr-select" id="vid-output" name="vid-output">
-                    <option value="mp4" selected>MP4</option>
-                    <option value="webm">WEBM</option>
-                    <option value="mov">MOV</option>
-                  </select>
-                </div>
-
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="vid-profile">Profil</label>
-                  <select class="fr-select" id="vid-profile" name="vid-profile">
-                    <option value="quality" selected>Qualité</option>
-                    <option value="balanced">Équilibré</option>
-                    <option value="light">Léger</option>
-                  </select>
-                </div>
-
-                <div class="fr-checkbox-group fr-mt-2w">
-                  <input type="checkbox" id="vid-mute" name="vid-mute" />
-                  <label class="fr-label" for="vid-mute">Supprimer la piste audio</label>
-                </div>
-              </div>
-
-              <!-- Documents / Autres -->
-              <div class="app-hidden" data-panel="documents">
-                <div class="fr-select-group fr-mt-2w">
-                  <label class="fr-label" for="doc-output">Format de sortie</label>
-                  <select class="fr-select" id="doc-output" name="doc-output">
-                    <option value="pdf" selected>PDF</option>
-                    <option value="docx">DOCX</option>
-                    <option value="odt">ODT</option>
-                    <option value="txt">TXT</option>
-                  </select>
-                </div>
-
-                <div class="fr-checkbox-group fr-mt-2w">
-                  <input type="checkbox" id="doc-keep-names" name="doc-keep-names" checked />
-                  <label class="fr-label" for="doc-keep-names">Conserver les noms d’origine</label>
+              <div class="app-filelist fr-mt-3w" aria-label="Liste des fichiers importés">
+                <div class="fr-table fr-table--multiline fr-table--no-scroll">
+                  <table>
+                    <caption>Fichiers importés</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="fr-col--lg">Nom</th>
+                        <th scope="col" class="fr-col--sm">Type détecté</th>
+                        <th scope="col" class="fr-col--sm">Taille</th>
+                      </tr>
+                    </thead>
+                    <tbody id="files-tbody"></tbody>
+                  </table>
                 </div>
               </div>
 
               <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-3w">
-                <button class="fr-btn" type="submit">Préparer le traitement</button>
+                <button class="fr-btn" type="button" id="next-to-options" disabled>Continuer</button>
+                <button class="fr-btn fr-btn--secondary" type="button" id="back-to-import">Retour</button>
               </div>
-            </form>
-
-            <div class="fr-alert fr-alert--info fr-mt-3w app-hidden" role="status" id="status-alert">
-              <p id="status-text" class="fr-alert__title">—</p>
             </div>
-
-            <div class="fr-mt-2w" id="result"></div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+
+      <!-- Étape 3 : Options -->
+      <div id="page-options" class="app-page app-hidden">
+        <section class="fr-card fr-card--no-arrow fr-mb-3w" id="options-card" aria-labelledby="options-title">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 id="options-title" class="fr-card__title">3. Options compatibles</h3>
+              <p class="fr-card__desc fr-text--sm" id="options-desc">—</p>
+
+              <form id="options-form">
+                <!-- PDF -->
+                <div class="app-hidden" data-panel="pdf">
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="pdf-action">Action PDF</label>
+                    <select class="fr-select" id="pdf-action" name="pdf-action">
+                      <option value="merge" selected>Fusionner</option>
+                      <option value="extract">Extraire des pages</option>
+                      <option value="reorder">Réorganiser des pages</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-input-group fr-mt-2w" id="pdf-pages-group">
+                    <label class="fr-label" for="pdf-pages">
+                      Pages concernées
+                      <span class="fr-hint-text">Exemple : 1-3,5,7-9</span>
+                    </label>
+                    <input class="fr-input" id="pdf-pages" name="pdf-pages" type="text" placeholder="1-3,5,7-9" />
+                  </div>
+
+                  <div class="fr-checkbox-group fr-mt-2w">
+                    <input type="checkbox" id="pdf-single" name="pdf-single" checked />
+                    <label class="fr-label" for="pdf-single">Produire un PDF final unique</label>
+                  </div>
+                </div>
+
+                <!-- Images -->
+                <div class="app-hidden" data-panel="images">
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="img-output">Format de sortie</label>
+                    <select class="fr-select" id="img-output" name="img-output">
+                      <option value="jpg" selected>JPEG</option>
+                      <option value="png">PNG</option>
+                      <option value="webp">WEBP</option>
+                      <option value="pdf">PDF</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="img-quality">Profil</label>
+                    <select class="fr-select" id="img-quality" name="img-quality">
+                      <option value="high" selected>Qualité</option>
+                      <option value="balanced">Équilibré</option>
+                      <option value="light">Léger</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-checkbox-group fr-mt-2w">
+                    <input type="checkbox" id="img-keep-metadata" name="img-keep-metadata" />
+                    <label class="fr-label" for="img-keep-metadata">Conserver les métadonnées si possible</label>
+                  </div>
+                </div>
+
+                <!-- Audio -->
+                <div class="app-hidden" data-panel="audio">
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="aud-output">Format de sortie</label>
+                    <select class="fr-select" id="aud-output" name="aud-output">
+                      <option value="mp3" selected>MP3</option>
+                      <option value="wav">WAV</option>
+                      <option value="aac">AAC</option>
+                      <option value="ogg">OGG</option>
+                      <option value="flac">FLAC</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="aud-bitrate">Débit cible</label>
+                    <select class="fr-select" id="aud-bitrate" name="aud-bitrate">
+                      <option value="320" selected>320 kb/s</option>
+                      <option value="256">256 kb/s</option>
+                      <option value="192">192 kb/s</option>
+                      <option value="128">128 kb/s</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Vidéos -->
+                <div class="app-hidden" data-panel="videos">
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="vid-output">Format de sortie</label>
+                    <select class="fr-select" id="vid-output" name="vid-output">
+                      <option value="mp4" selected>MP4</option>
+                      <option value="webm">WEBM</option>
+                      <option value="mov">MOV</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="vid-profile">Profil</label>
+                    <select class="fr-select" id="vid-profile" name="vid-profile">
+                      <option value="quality" selected>Qualité</option>
+                      <option value="balanced">Équilibré</option>
+                      <option value="light">Léger</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-checkbox-group fr-mt-2w">
+                    <input type="checkbox" id="vid-mute" name="vid-mute" />
+                    <label class="fr-label" for="vid-mute">Supprimer la piste audio</label>
+                  </div>
+                </div>
+
+                <!-- Documents / Autres -->
+                <div class="app-hidden" data-panel="documents">
+                  <div class="fr-select-group fr-mt-2w">
+                    <label class="fr-label" for="doc-output">Format de sortie</label>
+                    <select class="fr-select" id="doc-output" name="doc-output">
+                      <option value="pdf" selected>PDF</option>
+                      <option value="docx">DOCX</option>
+                      <option value="odt">ODT</option>
+                      <option value="txt">TXT</option>
+                    </select>
+                  </div>
+
+                  <div class="fr-checkbox-group fr-mt-2w">
+                    <input type="checkbox" id="doc-keep-names" name="doc-keep-names" checked />
+                    <label class="fr-label" for="doc-keep-names">Conserver les noms d’origine</label>
+                  </div>
+                </div>
+
+                <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-3w">
+                  <button class="fr-btn" type="submit">Préparer le traitement</button>
+                  <button class="fr-btn fr-btn--secondary" type="button" id="back-to-detect">Retour</button>
+                </div>
+              </form>
+
+              <div class="fr-alert fr-alert--info fr-mt-3w app-hidden" role="status" id="status-alert">
+                <p id="status-text" class="fr-alert__title">—</p>
+              </div>
+
+              <div class="fr-mt-2w" id="result"></div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <p class="fr-text--xs fr-mt-3w fr-mb-0">
         Remarque : cette page prépare la configuration (JSON) à brancher sur ton moteur de conversion local.
@@ -302,9 +307,7 @@
   <script>
     const uploadAny = document.getElementById('upload-any');
     const resetBtn = document.getElementById('reset-btn');
-    const continueBtn = document.getElementById('continue-btn');
 
-    const detectCard = document.getElementById('detect-card');
     const detectSummary = document.getElementById('detect-summary');
     const mixAlert = document.getElementById('mix-alert');
 
@@ -313,7 +316,6 @@
 
     const filesTbody = document.getElementById('files-tbody');
 
-    const optionsCard = document.getElementById('options-card');
     const optionsDesc = document.getElementById('options-desc');
     const optionsForm = document.getElementById('options-form');
 
@@ -325,6 +327,15 @@
     const stepperState = document.getElementById('stepper-state');
     const stepperSteps = document.getElementById('stepper-steps');
     const stepperDetails = document.getElementById('stepper-details');
+
+    const pageImport = document.getElementById('page-import');
+    const pageDetect = document.getElementById('page-detect');
+    const pageOptions = document.getElementById('page-options');
+
+    const nextToDetect = document.getElementById('next-to-detect');
+    const backToImport = document.getElementById('back-to-import');
+    const nextToOptions = document.getElementById('next-to-options');
+    const backToDetect = document.getElementById('back-to-detect');
 
     const panels = Array.from(optionsForm.querySelectorAll('[data-panel]'));
 
@@ -345,16 +356,36 @@
 
     const state = {
       allFiles: [],
-      groups: {
-        pdf: [],
-        images: [],
-        audio: [],
-        videos: [],
-        documents: [],
-        other: []
-      },
+      groups: { pdf: [], images: [], audio: [], videos: [], documents: [], other: [] },
       active: null
     };
+
+    function goto(step) { location.hash = `#${step}`; }
+
+    nextToDetect.addEventListener('click', () => goto('detect'));
+    backToImport.addEventListener('click', () => goto('import'));
+    nextToOptions.addEventListener('click', () => goto('options'));
+    backToDetect.addEventListener('click', () => goto('detect'));
+
+    function renderRoute() {
+      const raw = (location.hash || '#import').slice(1);
+      const step = (raw === 'import' || raw === 'detect' || raw === 'options') ? raw : 'import';
+
+      // sécurité : pas d’accès aux étapes 2/3 sans fichiers
+      if ((step === 'detect' || step === 'options') && state.allFiles.length === 0) {
+        goto('import');
+        return;
+      }
+
+      pageImport.classList.toggle('app-hidden', step !== 'import');
+      pageDetect.classList.toggle('app-hidden', step !== 'detect');
+      pageOptions.classList.toggle('app-hidden', step !== 'options');
+
+      updateStepper(step === 'import' ? 1 : step === 'detect' ? 2 : 3);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('hashchange', renderRoute);
 
     function updateStepper(step) {
       const cfg = STEPS[step] || STEPS[1];
@@ -366,7 +397,6 @@
         stepperDetails.classList.remove('app-hidden');
         stepperDetails.innerHTML = `<span class="fr-text--bold">Étape suivante&nbsp;:</span> ${escapeHtml(cfg.next)}`;
       } else {
-        // DSFR : sur la dernière étape, ne pas afficher l'étape suivante
         stepperDetails.classList.add('app-hidden');
         stepperDetails.innerHTML = '';
       }
@@ -375,12 +405,8 @@
     function formatBytes(bytes) {
       if (!Number.isFinite(bytes) || bytes <= 0) return '0 o';
       const units = ['o', 'Ko', 'Mo', 'Go'];
-      let value = bytes;
-      let unitIndex = 0;
-      while (value >= 1024 && unitIndex < units.length - 1) {
-        value /= 1024;
-        unitIndex += 1;
-      }
+      let value = bytes, unitIndex = 0;
+      while (value >= 1024 && unitIndex < units.length - 1) { value /= 1024; unitIndex += 1; }
       const decimals = (unitIndex === 0 || value >= 10) ? 0 : 1;
       return `${value.toFixed(decimals)} ${units[unitIndex]}`;
     }
@@ -426,9 +452,10 @@
 
     function applyActive(category) {
       state.active = category;
-
       const count = state.groups[category]?.length || 0;
-      optionsDesc.textContent = `Options prêtes pour : ${LABELS[category] || category} (${count} fichier${count > 1 ? 's' : ''}).`;
+
+      optionsDesc.textContent =
+        `Options prêtes pour : ${LABELS[category] || category} (${count} fichier${count > 1 ? 's' : ''}).`;
 
       panels.forEach(p => p.classList.toggle('app-hidden', p.dataset.panel !== category));
 
@@ -437,7 +464,7 @@
         togglePdfPages(action.value);
       }
 
-      continueBtn.disabled = count === 0;
+      nextToOptions.disabled = count === 0;
     }
 
     function renderChooser(available) {
@@ -481,7 +508,9 @@
 
       detectSummary.innerHTML = `
         <h4 class="fr-callout__title fr-text--md fr-mb-1w">Type détecté : ${escapeHtml(dominant)}</h4>
-        <p class="fr-callout__text fr-mb-1w">${available.length === 1 ? 'Tu peux continuer vers les options.' : 'Choisis un groupe à traiter, puis continue vers les options.'}</p>
+        <p class="fr-callout__text fr-mb-1w">${available.length === 1
+          ? 'Tu peux continuer vers les options.'
+          : 'Choisis un groupe à traiter, puis continue vers les options.'}</p>
         <div>${parts.join(' ')}</div>
       `;
     }
@@ -561,17 +590,15 @@
     function resetAll() {
       uploadAny.value = '';
       resetBtn.disabled = true;
-      continueBtn.disabled = true;
+      nextToDetect.disabled = true;
+      nextToOptions.disabled = true;
 
       state.allFiles = [];
       Object.keys(state.groups).forEach(k => state.groups[k] = []);
       state.active = null;
 
-      detectCard.classList.add('app-hidden');
-      optionsCard.classList.add('app-hidden');
       categoryChooser.classList.add('app-hidden');
       mixAlert.classList.add('app-hidden');
-
       categoryRadios.innerHTML = '';
       categoryRadios.onchange = null;
 
@@ -582,14 +609,13 @@
       panels.forEach(p => p.classList.add('app-hidden'));
 
       clearUI();
-      updateStepper(1);
+      goto('import');
     }
 
     uploadAny.addEventListener('change', (e) => {
       const files = Array.from(e.target.files || []);
       if (!files.length) return;
 
-      // reset (sans dépendre de l'input ensuite)
       resetAll();
       resetBtn.disabled = false;
 
@@ -600,41 +626,28 @@
         state.groups[cat].push(f);
       });
 
+      nextToDetect.disabled = false;
+
       const available = Object.keys(state.groups).filter(cat => state.groups[cat].length > 0);
 
-      detectCard.classList.remove('app-hidden');
       renderSummary(available);
       renderTable();
       renderChooser(available);
 
       const defaultCat = available[0] || null;
       if (defaultCat) {
-        // "other" seul => on propose le flux conversion simple (documents)
         const chosen = (defaultCat === 'other' && available.length === 1) ? 'documents' : defaultCat;
         applyActive(chosen);
       }
 
       clearUI();
-      updateStepper(2);
-
-      // focus logique sur la section suivante
-      detectCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // On reste sur l’étape 1 : c’est le bouton Continuer qui change de page
     });
 
     resetBtn.addEventListener('click', resetAll);
 
-    // PDF pages toggle
     document.getElementById('pdf-action').addEventListener('change', (e) => {
       togglePdfPages(e.target.value);
-    });
-
-    // Continuer vers options (étape 3)
-    continueBtn.addEventListener('click', () => {
-      if (!state.active) return;
-      optionsCard.classList.remove('app-hidden');
-      clearUI();
-      updateStepper(3);
-      optionsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     optionsForm.addEventListener('submit', (e) => {
@@ -662,6 +675,9 @@
       downloadJson(payload);
     });
 
+    // init
+    if (!location.hash) goto('import');
+    renderRoute();
     resetAll();
   </script>
 </body>
