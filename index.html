@@ -1,132 +1,21 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-fr-scheme="system">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mes fichiers - Convertisseur de fichiers local</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/dsfr/dsfr.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/utility/icons/icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/dsfr/dsfr.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/utility/icons/icons.min.css" />
 
   <style>
-    :root {
-      --app-border: 1px solid var(--border-default-grey);
-    }
+    body { margin: 0; }
+    .fr-header, .fr-header__brand { filter: none !important; }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      min-height: 100%;
-    }
-
-    body {
-      margin: 0;
-      background: var(--background-default-grey);
-    }
-
-    .fr-header,
-    .fr-header__brand {
-      filter: none !important;
-    }
-
-    .app-shell {
-      padding-top: 2rem;
-      padding-bottom: 3rem;
-    }
-
-    .app-panel {
-      background: var(--background-default-grey);
-      border: var(--app-border);
-      padding: 1.5rem;
-      height: 100%;
-    }
-
-    .app-panel--sticky {
-      position: sticky;
-      top: 1rem;
-    }
-
-    .app-empty {
-      border: var(--app-border);
-      padding: 1rem;
-      background: var(--background-default-grey-hover);
-    }
-
-    .app-file-list {
-      max-height: 18rem;
-      overflow: auto;
-      border: var(--app-border);
-      background: var(--background-default-grey);
-    }
-
-    .app-file-list table {
-      margin-bottom: 0;
-    }
-
-    .app-hidden {
-      display: none !important;
-    }
-
-    .app-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .app-summary-item {
-      border: var(--app-border);
-      padding: 0.75rem;
-      background: var(--background-default-grey-hover);
-    }
-
-    .app-summary-item p {
-      margin: 0;
-    }
-
-    .app-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .app-status {
-      border-left: 4px solid var(--border-action-high-blue-france);
-      padding: 0.75rem 1rem;
-      background: var(--background-alt-blue-france);
-      margin-top: 1rem;
-    }
-
-    .app-status--warning {
-      border-left-color: var(--border-default-warning);
-      background: var(--background-contrast-warning);
-    }
-
-    .app-result a {
-      display: inline-block;
-      margin-top: 0.5rem;
-    }
-
-    .app-accordion-intro {
-      margin-bottom: 1rem;
-    }
-
-    .app-count {
-      white-space: nowrap;
-    }
-
-    @media (max-width: 48em) {
-      .app-panel--sticky {
-        position: static;
-      }
-
-      .app-summary-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    /* petits ajustements de mise en page, sans toucher aux tailles de police DSFR */
+    .app-max { max-width: 60rem; }
+    .app-filelist { max-height: 16rem; overflow: auto; }
+    .app-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -137,7 +26,7 @@
           <div class="fr-header__brand fr-enlarge-link">
             <div class="fr-header__brand-top">
               <div class="fr-header__logo">
-                <p class="fr-logo">Ministère<br>de l’Intérieur</p>
+                <p class="fr-logo">Ministère<br />de l’Intérieur</p>
               </div>
             </div>
             <div class="fr-header__service">
@@ -150,311 +39,218 @@
     </div>
   </header>
 
-  <main class="app-shell">
-    <div class="fr-container">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12">
-          <p class="fr-badge fr-badge--blue-ecume">Traitement local</p>
-          <h1 class="fr-mt-2w fr-mb-1w">Préparer une conversion</h1>
-          <p class="fr-text--lead fr-mb-0">
-            Importe un ou plusieurs fichiers, choisis la catégorie adaptée, puis sélectionne les options compatibles.
-          </p>
-        </div>
-      </div>
+  <main class="fr-container fr-py-4w">
+    <div class="app-max">
+      <p class="fr-badge fr-badge--blue-ecume">Traitement local</p>
+      <h1 class="fr-h2 fr-mt-2w fr-mb-1w">Importer puis choisir les options</h1>
+      <p class="fr-text--lg fr-mb-3w">
+        Un seul import « tout venant ». L’application détecte automatiquement le type (image, PDF, audio, vidéo, document ou autre),
+        puis te propose uniquement les options compatibles.
+      </p>
 
-      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-        <div class="fr-col-12 fr-col-lg-7">
-          <section class="app-panel" aria-labelledby="import-title">
-            <h2 id="import-title" class="fr-h4 fr-mb-2w">1. Import des fichiers</h2>
-            <p class="app-accordion-intro fr-text--sm fr-mb-3w">
-              Une entrée par catégorie pour éviter la multiplication des menus. Ouvre la catégorie voulue puis ajoute tes fichiers.
+      <!-- Étape 1 : Import -->
+      <section class="fr-card fr-card--no-arrow fr-mb-3w" aria-labelledby="import-title">
+        <div class="fr-card__body">
+          <div class="fr-card__content">
+            <h2 id="import-title" class="fr-card__title">1. Import</h2>
+            <p class="fr-card__desc fr-text--sm">
+              Tu peux importer un ou plusieurs fichiers d’un coup. Si tu mélanges plusieurs types, tu pourras choisir quel groupe traiter.
             </p>
 
-            <div class="fr-accordions-group">
-              <section class="fr-accordion">
-                <h3 class="fr-accordion__title">
-                  <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-documents">
-                    Documents bureautiques
-                  </button>
-                </h3>
-                <div class="fr-collapse" id="accordion-documents">
-                  <div class="fr-upload-group fr-mt-2w">
-                    <label class="fr-label" for="upload-documents">
-                      Ajouter des documents
-                      <span class="fr-hint-text">Formats acceptés : DOC, DOCX, ODT, RTF, TXT</span>
-                    </label>
-                    <input class="fr-upload app-upload" type="file" id="upload-documents" name="upload-documents" multiple accept=".doc,.docx,.odt,.rtf,.txt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,application/rtf" data-category="documents">
-                  </div>
-                </div>
-              </section>
-
-              <section class="fr-accordion">
-                <h3 class="fr-accordion__title">
-                  <button class="fr-accordion__btn" aria-expanded="true" aria-controls="accordion-pdf">
-                    PDF
-                  </button>
-                </h3>
-                <div class="fr-collapse fr-collapse--expanded" id="accordion-pdf">
-                  <div class="fr-upload-group fr-mt-2w">
-                    <label class="fr-label" for="upload-pdf">
-                      Ajouter un ou plusieurs PDF
-                      <span class="fr-hint-text">Formats acceptés : PDF</span>
-                    </label>
-                    <input class="fr-upload app-upload" type="file" id="upload-pdf" name="upload-pdf" multiple accept=".pdf,application/pdf" data-category="pdf">
-                  </div>
-                </div>
-              </section>
-
-              <section class="fr-accordion">
-                <h3 class="fr-accordion__title">
-                  <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-images">
-                    Images
-                  </button>
-                </h3>
-                <div class="fr-collapse" id="accordion-images">
-                  <div class="fr-upload-group fr-mt-2w">
-                    <label class="fr-label" for="upload-images">
-                      Ajouter des images
-                      <span class="fr-hint-text">Formats acceptés : PNG, JPEG, WEBP, GIF, BMP, TIFF, HEIC, AVIF</span>
-                    </label>
-                    <input class="fr-upload app-upload" type="file" id="upload-images" name="upload-images" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.bmp,.tif,.tiff,.heic,.avif,image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,image/heic,image/avif" data-category="images">
-                  </div>
-                </div>
-              </section>
-
-              <section class="fr-accordion">
-                <h3 class="fr-accordion__title">
-                  <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-videos">
-                    Vidéos
-                  </button>
-                </h3>
-                <div class="fr-collapse" id="accordion-videos">
-                  <div class="fr-upload-group fr-mt-2w">
-                    <label class="fr-label" for="upload-videos">
-                      Ajouter des vidéos
-                      <span class="fr-hint-text">Formats acceptés : MP4, MOV, AVI, MKV, WEBM, MPEG</span>
-                    </label>
-                    <input class="fr-upload app-upload" type="file" id="upload-videos" name="upload-videos" multiple accept=".mp4,.mov,.avi,.mkv,.webm,.mpeg,.mpg,video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,video/webm,video/mpeg" data-category="videos">
-                  </div>
-                </div>
-              </section>
-
-              <section class="fr-accordion">
-                <h3 class="fr-accordion__title">
-                  <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-audio">
-                    Audio
-                  </button>
-                </h3>
-                <div class="fr-collapse" id="accordion-audio">
-                  <div class="fr-upload-group fr-mt-2w">
-                    <label class="fr-label" for="upload-audio">
-                      Ajouter des fichiers audio
-                      <span class="fr-hint-text">Formats acceptés : MP3, WAV, AAC, M4A, OGG, FLAC</span>
-                    </label>
-                    <input class="fr-upload app-upload" type="file" id="upload-audio" name="upload-audio" multiple accept=".mp3,.wav,.aac,.m4a,.ogg,.flac,audio/mpeg,audio/wav,audio/aac,audio/mp4,audio/ogg,audio/flac" data-category="audio">
-                  </div>
-                </div>
-              </section>
+            <div class="fr-upload-group fr-mt-2w">
+              <label class="fr-label" for="upload-any">
+                Ajouter des fichiers
+                <span class="fr-hint-text">PDF, images, audio, vidéo, documents bureautiques…</span>
+              </label>
+              <input class="fr-upload" type="file" id="upload-any" name="upload-any" multiple />
             </div>
-          </section>
+
+            <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-2w">
+              <button class="fr-btn fr-btn--secondary" type="button" id="reset-btn" disabled>
+                Réinitialiser
+              </button>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="fr-col-12 fr-col-lg-5">
-          <aside class="app-panel app-panel--sticky" aria-labelledby="summary-title">
-            <h2 id="summary-title" class="fr-h4 fr-mb-2w">2. Configuration</h2>
+      <!-- Étape 2 : Détection -->
+      <section class="fr-card fr-card--no-arrow fr-mb-3w app-hidden" id="detect-card" aria-labelledby="detect-title">
+        <div class="fr-card__body">
+          <div class="fr-card__content">
+            <h2 id="detect-title" class="fr-card__title">2. Détection</h2>
 
-            <div id="summary-empty" class="app-empty">
-              <p class="fr-mb-0">Aucun fichier importé. Ajoute des fichiers dans une catégorie pour afficher les options possibles.</p>
+            <div class="fr-callout fr-mt-2w" id="detect-summary" aria-live="polite"></div>
+
+            <fieldset class="fr-fieldset fr-mt-3w app-hidden" id="category-chooser" aria-labelledby="category-legend">
+              <legend class="fr-fieldset__legend fr-text--regular" id="category-legend">
+                Plusieurs types détectés : choisis le groupe à traiter
+              </legend>
+              <div class="fr-fieldset__content" id="category-radios"></div>
+            </fieldset>
+
+            <div class="fr-table fr-table--no-scroll fr-mt-3w">
+              <table>
+                <caption>Fichiers importés</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Type détecté</th>
+                    <th scope="col">Taille</th>
+                  </tr>
+                </thead>
+                <tbody id="files-tbody" class="app-filelist"></tbody>
+              </table>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div id="summary-content" class="app-hidden">
-              <div class="app-summary-grid">
-                <div class="app-summary-item">
-                  <p class="fr-text--xs fr-mb-1v">Catégorie</p>
-                  <p class="fr-text--md fr-mb-0" id="summary-category">-</p>
+      <!-- Étape 3 : Options -->
+      <section class="fr-card fr-card--no-arrow fr-mb-3w app-hidden" id="options-card" aria-labelledby="options-title">
+        <div class="fr-card__body">
+          <div class="fr-card__content">
+            <h2 id="options-title" class="fr-card__title">3. Options compatibles</h2>
+            <p class="fr-card__desc fr-text--sm" id="options-desc">—</p>
+
+            <form id="options-form">
+              <!-- PDF -->
+              <div class="app-hidden" data-panel="pdf">
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="pdf-action">Action PDF</label>
+                  <select class="fr-select" id="pdf-action" name="pdf-action">
+                    <option value="merge" selected>Fusionner</option>
+                    <option value="extract">Extraire des pages</option>
+                    <option value="reorder">Réorganiser des pages</option>
+                  </select>
                 </div>
-                <div class="app-summary-item">
-                  <p class="fr-text--xs fr-mb-1v">Fichiers</p>
-                  <p class="fr-text--md fr-mb-0 app-count" id="summary-count">0</p>
+
+                <div class="fr-input-group fr-mt-2w" id="pdf-pages-group">
+                  <label class="fr-label" for="pdf-pages">
+                    Pages concernées
+                    <span class="fr-hint-text">Exemple : 1-3,5,7-9</span>
+                  </label>
+                  <input class="fr-input" id="pdf-pages" name="pdf-pages" type="text" placeholder="1-3,5,7-9" />
+                </div>
+
+                <div class="fr-checkbox-group fr-mt-2w">
+                  <input type="checkbox" id="pdf-single" name="pdf-single" checked />
+                  <label class="fr-label" for="pdf-single">Produire un PDF final unique</label>
                 </div>
               </div>
 
-              <div class="app-file-list fr-mb-3w">
-                <div class="fr-table fr-table--no-scroll">
-                  <table>
-                    <caption>Fichiers sélectionnés</caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Taille</th>
-                      </tr>
-                    </thead>
-                    <tbody id="summary-files"></tbody>
-                  </table>
+              <!-- Images -->
+              <div class="app-hidden" data-panel="images">
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="img-output">Format de sortie</label>
+                  <select class="fr-select" id="img-output" name="img-output">
+                    <option value="jpg" selected>JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="webp">WEBP</option>
+                    <option value="pdf">PDF</option>
+                  </select>
+                </div>
+
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="img-quality">Profil</label>
+                  <select class="fr-select" id="img-quality" name="img-quality">
+                    <option value="high" selected>Qualité</option>
+                    <option value="balanced">Équilibré</option>
+                    <option value="light">Léger</option>
+                  </select>
+                </div>
+
+                <div class="fr-checkbox-group fr-mt-2w">
+                  <input type="checkbox" id="img-keep-metadata" name="img-keep-metadata" />
+                  <label class="fr-label" for="img-keep-metadata">Conserver les métadonnées si possible</label>
                 </div>
               </div>
 
-              <form id="options-form">
-                <div id="panel-documents" class="app-hidden app-options-panel" data-panel="documents">
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="documents-output">Format de sortie</label>
-                    <select class="fr-select" id="documents-output" name="documents-output">
-                      <option value="pdf" selected>PDF</option>
-                      <option value="docx">DOCX</option>
-                      <option value="odt">ODT</option>
-                      <option value="txt">TXT</option>
-                    </select>
-                  </div>
-
-                  <fieldset class="fr-fieldset">
-                    <legend class="fr-fieldset__legend fr-text--regular">Option principale</legend>
-                    <div class="fr-fieldset__content">
-                      <div class="fr-radio-group">
-                        <input type="radio" id="documents-mode-convert" name="documents-mode" value="convert" checked>
-                        <label class="fr-label" for="documents-mode-convert">Convertir les documents</label>
-                      </div>
-                      <div class="fr-radio-group">
-                        <input type="radio" id="documents-mode-batch" name="documents-mode" value="batch">
-                        <label class="fr-label" for="documents-mode-batch">Traiter chaque document séparément</label>
-                      </div>
-                    </div>
-                  </fieldset>
-
-                  <div class="fr-checkbox-group fr-mb-2w">
-                    <input type="checkbox" id="documents-keep-name" name="documents-keep-name" checked>
-                    <label class="fr-label" for="documents-keep-name">Conserver les noms d’origine</label>
-                  </div>
+              <!-- Audio -->
+              <div class="app-hidden" data-panel="audio">
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="aud-output">Format de sortie</label>
+                  <select class="fr-select" id="aud-output" name="aud-output">
+                    <option value="mp3" selected>MP3</option>
+                    <option value="wav">WAV</option>
+                    <option value="aac">AAC</option>
+                    <option value="ogg">OGG</option>
+                    <option value="flac">FLAC</option>
+                  </select>
                 </div>
 
-                <div id="panel-pdf" class="app-hidden app-options-panel" data-panel="pdf">
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="pdf-action">Action PDF</label>
-                    <select class="fr-select" id="pdf-action" name="pdf-action">
-                      <option value="merge" selected>Fusionner plusieurs PDF</option>
-                      <option value="extract">Extraire certaines pages</option>
-                      <option value="reorder">Réorganiser les pages</option>
-                    </select>
-                  </div>
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="aud-bitrate">Débit cible</label>
+                  <select class="fr-select" id="aud-bitrate" name="aud-bitrate">
+                    <option value="320" selected>320 kb/s</option>
+                    <option value="256">256 kb/s</option>
+                    <option value="192">192 kb/s</option>
+                    <option value="128">128 kb/s</option>
+                  </select>
+                </div>
+              </div>
 
-                  <div class="fr-input-group">
-                    <label class="fr-label" for="pdf-pages">
-                      Pages concernées
-                      <span class="fr-hint-text">Exemple : 1-3,5,7-9</span>
-                    </label>
-                    <input class="fr-input" id="pdf-pages" name="pdf-pages" type="text" placeholder="1-3,5,7-9">
-                  </div>
-
-                  <div class="fr-checkbox-group fr-mb-2w">
-                    <input type="checkbox" id="pdf-remove-empty" name="pdf-remove-empty">
-                    <label class="fr-label" for="pdf-remove-empty">Ignorer les pages vides détectées</label>
-                  </div>
-
-                  <div class="fr-checkbox-group fr-mb-2w">
-                    <input type="checkbox" id="pdf-single-output" name="pdf-single-output" checked>
-                    <label class="fr-label" for="pdf-single-output">Produire un PDF final unique</label>
-                  </div>
+              <!-- Vidéos -->
+              <div class="app-hidden" data-panel="videos">
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="vid-output">Format de sortie</label>
+                  <select class="fr-select" id="vid-output" name="vid-output">
+                    <option value="mp4" selected>MP4</option>
+                    <option value="webm">WEBM</option>
+                    <option value="mov">MOV</option>
+                  </select>
                 </div>
 
-                <div id="panel-images" class="app-hidden app-options-panel" data-panel="images">
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="images-output">Format de sortie</label>
-                    <select class="fr-select" id="images-output" name="images-output">
-                      <option value="jpg" selected>JPEG</option>
-                      <option value="png">PNG</option>
-                      <option value="webp">WEBP</option>
-                      <option value="pdf">PDF</option>
-                    </select>
-                  </div>
-
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="images-quality">Qualité</label>
-                    <select class="fr-select" id="images-quality" name="images-quality">
-                      <option value="high" selected>Élevée</option>
-                      <option value="medium">Moyenne</option>
-                      <option value="light">Légère</option>
-                    </select>
-                  </div>
-
-                  <fieldset class="fr-fieldset">
-                    <legend class="fr-fieldset__legend fr-text--regular">Options</legend>
-                    <div class="fr-fieldset__content">
-                      <div class="fr-checkbox-group fr-mb-2w">
-                        <input type="checkbox" id="images-resize" name="images-resize">
-                        <label class="fr-label" for="images-resize">Redimensionner avant export</label>
-                      </div>
-                      <div class="fr-checkbox-group fr-mb-2w">
-                        <input type="checkbox" id="images-keep-metadata" name="images-keep-metadata">
-                        <label class="fr-label" for="images-keep-metadata">Conserver les métadonnées si possible</label>
-                      </div>
-                    </div>
-                  </fieldset>
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="vid-profile">Profil</label>
+                  <select class="fr-select" id="vid-profile" name="vid-profile">
+                    <option value="quality" selected>Qualité</option>
+                    <option value="balanced">Équilibré</option>
+                    <option value="light">Léger</option>
+                  </select>
                 </div>
 
-                <div id="panel-videos" class="app-hidden app-options-panel" data-panel="videos">
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="videos-output">Format de sortie</label>
-                    <select class="fr-select" id="videos-output" name="videos-output">
-                      <option value="mp4" selected>MP4</option>
-                      <option value="webm">WEBM</option>
-                      <option value="mov">MOV</option>
-                    </select>
-                  </div>
+                <div class="fr-checkbox-group fr-mt-2w">
+                  <input type="checkbox" id="vid-mute" name="vid-mute" />
+                  <label class="fr-label" for="vid-mute">Supprimer la piste audio</label>
+                </div>
+              </div>
 
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="videos-quality">Profil d’export</label>
-                    <select class="fr-select" id="videos-quality" name="videos-quality">
-                      <option value="original" selected>Conserver au mieux la qualité</option>
-                      <option value="balanced">Équilibré</option>
-                      <option value="compact">Fichier plus léger</option>
-                    </select>
-                  </div>
-
-                  <div class="fr-checkbox-group fr-mb-2w">
-                    <input type="checkbox" id="videos-mute" name="videos-mute">
-                    <label class="fr-label" for="videos-mute">Supprimer la piste audio</label>
-                  </div>
+              <!-- Documents / Autres -->
+              <div class="app-hidden" data-panel="documents">
+                <div class="fr-select-group fr-mt-2w">
+                  <label class="fr-label" for="doc-output">Format de sortie</label>
+                  <select class="fr-select" id="doc-output" name="doc-output">
+                    <option value="pdf" selected>PDF</option>
+                    <option value="docx">DOCX</option>
+                    <option value="odt">ODT</option>
+                    <option value="txt">TXT</option>
+                  </select>
                 </div>
 
-                <div id="panel-audio" class="app-hidden app-options-panel" data-panel="audio">
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="audio-output">Format de sortie</label>
-                    <select class="fr-select" id="audio-output" name="audio-output">
-                      <option value="mp3" selected>MP3</option>
-                      <option value="wav">WAV</option>
-                      <option value="aac">AAC</option>
-                      <option value="ogg">OGG</option>
-                      <option value="flac">FLAC</option>
-                    </select>
-                  </div>
-
-                  <div class="fr-select-group">
-                    <label class="fr-label" for="audio-bitrate">Débit cible</label>
-                    <select class="fr-select" id="audio-bitrate" name="audio-bitrate">
-                      <option value="320" selected>320 kb/s</option>
-                      <option value="256">256 kb/s</option>
-                      <option value="192">192 kb/s</option>
-                      <option value="128">128 kb/s</option>
-                    </select>
-                  </div>
-
-                  <div class="fr-checkbox-group fr-mb-2w">
-                    <input type="checkbox" id="audio-normalize" name="audio-normalize">
-                    <label class="fr-label" for="audio-normalize">Normaliser le volume</label>
-                  </div>
+                <div class="fr-checkbox-group fr-mt-2w">
+                  <input type="checkbox" id="doc-keep-names" name="doc-keep-names" checked />
+                  <label class="fr-label" for="doc-keep-names">Conserver les noms d’origine</label>
                 </div>
+              </div>
 
-                <div class="app-toolbar fr-mt-3w">
-                  <button class="fr-btn" type="submit">Préparer le traitement</button>
-                  <button class="fr-btn fr-btn--secondary" type="button" id="reset-button">Réinitialiser</button>
-                </div>
-              </form>
+              <div class="fr-btns-group fr-btns-group--inline-reverse fr-mt-3w">
+                <button class="fr-btn" type="submit">Préparer le traitement</button>
+              </div>
+            </form>
 
-              <div id="status-box" class="app-status app-hidden" aria-live="polite"></div>
-              <div id="result-box" class="app-result"></div>
+            <div class="fr-alert fr-alert--info fr-mt-3w app-hidden" role="status" id="status-alert">
+              <p id="status-text" class="fr-alert__title">—</p>
             </div>
-          </aside>
+
+            <div class="fr-mt-2w" id="result"></div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <p class="fr-text--xs fr-mt-3w fr-mb-0">
+        Remarque : cette page prépare la configuration (JSON) à brancher sur ton moteur de conversion local.
+      </p>
     </div>
   </main>
 
@@ -462,30 +258,48 @@
   <script src="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.13.1/dist/dsfr/dsfr.nomodule.min.js" nomodule></script>
 
   <script>
-    const CATEGORY_LABELS = {
-      documents: 'Documents bureautiques',
+    const uploadAny = document.getElementById('upload-any');
+    const resetBtn = document.getElementById('reset-btn');
+
+    const detectCard = document.getElementById('detect-card');
+    const detectSummary = document.getElementById('detect-summary');
+
+    const categoryChooser = document.getElementById('category-chooser');
+    const categoryRadios = document.getElementById('category-radios');
+
+    const filesTbody = document.getElementById('files-tbody');
+
+    const optionsCard = document.getElementById('options-card');
+    const optionsDesc = document.getElementById('options-desc');
+    const optionsForm = document.getElementById('options-form');
+
+    const statusAlert = document.getElementById('status-alert');
+    const statusText = document.getElementById('status-text');
+    const result = document.getElementById('result');
+
+    const panels = Array.from(optionsForm.querySelectorAll('[data-panel]'));
+
+    const LABELS = {
       pdf: 'PDF',
       images: 'Images',
+      audio: 'Audio',
       videos: 'Vidéos',
-      audio: 'Audio'
+      documents: 'Documents',
+      other: 'Autres'
     };
 
     const state = {
-      category: null,
-      files: []
+      allFiles: [],
+      groups: {
+        pdf: [],
+        images: [],
+        audio: [],
+        videos: [],
+        documents: [],
+        other: []
+      },
+      active: null
     };
-
-    const uploads = document.querySelectorAll('.app-upload');
-    const summaryEmpty = document.getElementById('summary-empty');
-    const summaryContent = document.getElementById('summary-content');
-    const summaryCategory = document.getElementById('summary-category');
-    const summaryCount = document.getElementById('summary-count');
-    const summaryFiles = document.getElementById('summary-files');
-    const optionPanels = document.querySelectorAll('.app-options-panel');
-    const optionsForm = document.getElementById('options-form');
-    const resetButton = document.getElementById('reset-button');
-    const statusBox = document.getElementById('status-box');
-    const resultBox = document.getElementById('result-box');
 
     function formatBytes(bytes) {
       if (!Number.isFinite(bytes) || bytes <= 0) return '0 o';
@@ -496,122 +310,158 @@
         value /= 1024;
         unitIndex += 1;
       }
-      return `${value.toFixed(value >= 10 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+      const decimals = (unitIndex === 0 || value >= 10) ? 0 : 1;
+      return `${value.toFixed(decimals)} ${units[unitIndex]}`;
     }
 
-    function showStatus(message, warning = false) {
-      statusBox.classList.remove('app-hidden', 'app-status--warning');
-      if (warning) statusBox.classList.add('app-status--warning');
-      statusBox.textContent = message;
+    function extOf(name) {
+      const i = String(name || '').lastIndexOf('.');
+      return i >= 0 ? String(name).slice(i + 1).toLowerCase() : '';
     }
 
-    function clearStatus() {
-      statusBox.classList.add('app-hidden');
-      statusBox.classList.remove('app-status--warning');
-      statusBox.textContent = '';
-      resultBox.innerHTML = '';
+    function categorize(file) {
+      const type = String(file.type || '').toLowerCase();
+      const ext = extOf(file.name);
+
+      if (type === 'application/pdf' || ext === 'pdf') return 'pdf';
+      if (type.startsWith('image/')) return 'images';
+      if (type.startsWith('audio/')) return 'audio';
+      if (type.startsWith('video/')) return 'videos';
+
+      // documents courants (fallback extension + mime)
+      const docExt = new Set(['doc','docx','odt','rtf','txt']);
+      const docMime = new Set([
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.oasis.opendocument.text',
+        'text/plain',
+        'application/rtf'
+      ]);
+      if (docMime.has(type) || docExt.has(ext)) return 'documents';
+
+      return 'other';
     }
 
-    function renderOptions() {
-      optionPanels.forEach(panel => {
-        const isActive = panel.dataset.panel === state.category;
-        panel.classList.toggle('app-hidden', !isActive);
-      });
+    function clearUI() {
+      statusAlert.classList.add('app-hidden');
+      statusText.textContent = '—';
+      result.innerHTML = '';
     }
 
-    function renderFileList() {
-      summaryFiles.innerHTML = '';
-      state.files.forEach(file => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${escapeHtml(file.name)}</td>
-          <td>${formatBytes(file.size)}</td>
-        `;
-        summaryFiles.appendChild(row);
-      });
+    function setActive(category) {
+      state.active = category;
+
+      panels.forEach(p => p.classList.toggle('app-hidden', p.dataset.panel !== category));
+
+      const count = state.groups[category]?.length || 0;
+      optionsDesc.textContent = `Options affichées pour : ${LABELS[category] || category} (${count} fichier${count > 1 ? 's' : ''}).`;
+
+      // PDF: champ pages seulement pour extract/reorder
+      if (category === 'pdf') {
+        const action = document.getElementById('pdf-action');
+        togglePdfPages(action.value);
+      }
+
+      optionsCard.classList.remove('app-hidden');
     }
 
-    function renderSummary() {
-      const hasFiles = state.files.length > 0 && state.category;
-      summaryEmpty.classList.toggle('app-hidden', hasFiles);
-      summaryContent.classList.toggle('app-hidden', !hasFiles);
+    function togglePdfPages(actionValue) {
+      const group = document.getElementById('pdf-pages-group');
+      const needsPages = (actionValue === 'extract' || actionValue === 'reorder');
+      group.classList.toggle('app-hidden', !needsPages);
+    }
 
-      if (!hasFiles) {
-        renderOptions();
+    function renderChooserIfNeeded(available) {
+      categoryRadios.innerHTML = '';
+
+      if (available.length <= 1) {
+        categoryChooser.classList.add('app-hidden');
         return;
       }
 
-      summaryCategory.textContent = CATEGORY_LABELS[state.category] || '-';
-      summaryCount.textContent = `${state.files.length} fichier${state.files.length > 1 ? 's' : ''}`;
-      renderFileList();
-      renderOptions();
-    }
+      categoryChooser.classList.remove('app-hidden');
 
-    function resetAll() {
-      uploads.forEach(input => {
-        input.value = '';
-      });
-      state.category = null;
-      state.files = [];
-      clearStatus();
-      renderSummary();
-    }
-
-    function onFilesSelected(event) {
-      const input = event.currentTarget;
-      const files = Array.from(input.files || []);
-      if (!files.length) return;
-
-      uploads.forEach(otherInput => {
-        if (otherInput !== input) otherInput.value = '';
+      available.forEach((cat, idx) => {
+        const id = `cat-${cat}`;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'fr-radio-group';
+        wrapper.innerHTML = `
+          <input type="radio" id="${id}" name="category" value="${cat}" ${idx === 0 ? 'checked' : ''} />
+          <label class="fr-label" for="${id}">${LABELS[cat]} (${state.groups[cat].length})</label>
+        `;
+        categoryRadios.appendChild(wrapper);
       });
 
-      state.category = input.dataset.category;
-      state.files = files;
-      clearStatus();
-      renderSummary();
+      categoryRadios.addEventListener('change', (e) => {
+        if (e.target && e.target.name === 'category') {
+          clearUI();
+          setActive(e.target.value);
+        }
+      }, { once: true });
+    }
+
+    function renderSummary(available) {
+      // badges DSFR
+      const parts = available.map(cat => {
+        const count = state.groups[cat].length;
+        return `<span class="fr-badge fr-badge--green-emeraude fr-mr-1v">${LABELS[cat]} : ${count}</span>`;
+      });
+
+      const dominant = available.length === 1 ? (LABELS[available[0]] || available[0]) : 'Plusieurs types';
+
+      detectSummary.innerHTML = `
+        <h3 class="fr-callout__title fr-text--md fr-mb-1w">Type détecté : ${dominant}</h3>
+        <p class="fr-callout__text fr-mb-1w">${available.length === 1 ? 'Tu peux passer directement aux options.' : 'Tu peux choisir un groupe à traiter ci-dessous.'}</p>
+        <div>${parts.join(' ')}</div>
+      `;
+    }
+
+    function renderTable() {
+      filesTbody.innerHTML = '';
+      state.allFiles.forEach(file => {
+        const cat = categorize(file);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(file.name)}</td>
+          <td>${escapeHtml(LABELS[cat] || cat)}</td>
+          <td>${formatBytes(file.size)}</td>
+        `;
+        filesTbody.appendChild(tr);
+      });
     }
 
     function buildPayload() {
       const payload = {
-        category: state.category,
-        files: state.files.map(file => ({
-          name: file.name,
-          size: file.size,
-          type: file.type || 'non-renseigné'
-        }))
+        category: state.active,
+        files: state.groups[state.active].map(f => ({ name: f.name, size: f.size, type: f.type || 'non-renseigné' }))
       };
 
-      if (state.category === 'documents') {
-        payload.output = document.getElementById('documents-output').value;
-        payload.mode = document.querySelector('input[name="documents-mode"]:checked')?.value || 'convert';
-        payload.keepNames = document.getElementById('documents-keep-name').checked;
-      }
-
-      if (state.category === 'pdf') {
+      if (state.active === 'pdf') {
         payload.action = document.getElementById('pdf-action').value;
         payload.pages = document.getElementById('pdf-pages').value.trim();
-        payload.ignoreEmptyPages = document.getElementById('pdf-remove-empty').checked;
-        payload.singleOutput = document.getElementById('pdf-single-output').checked;
+        payload.singleOutput = document.getElementById('pdf-single').checked;
       }
 
-      if (state.category === 'images') {
-        payload.output = document.getElementById('images-output').value;
-        payload.quality = document.getElementById('images-quality').value;
-        payload.resize = document.getElementById('images-resize').checked;
-        payload.keepMetadata = document.getElementById('images-keep-metadata').checked;
+      if (state.active === 'images') {
+        payload.output = document.getElementById('img-output').value;
+        payload.profile = document.getElementById('img-quality').value;
+        payload.keepMetadata = document.getElementById('img-keep-metadata').checked;
       }
 
-      if (state.category === 'videos') {
-        payload.output = document.getElementById('videos-output').value;
-        payload.quality = document.getElementById('videos-quality').value;
-        payload.removeAudio = document.getElementById('videos-mute').checked;
+      if (state.active === 'audio') {
+        payload.output = document.getElementById('aud-output').value;
+        payload.bitrate = document.getElementById('aud-bitrate').value;
       }
 
-      if (state.category === 'audio') {
-        payload.output = document.getElementById('audio-output').value;
-        payload.bitrate = document.getElementById('audio-bitrate').value;
-        payload.normalize = document.getElementById('audio-normalize').checked;
+      if (state.active === 'videos') {
+        payload.output = document.getElementById('vid-output').value;
+        payload.profile = document.getElementById('vid-profile').value;
+        payload.removeAudio = document.getElementById('vid-mute').checked;
+      }
+
+      if (state.active === 'documents' || state.active === 'other') {
+        payload.output = document.getElementById('doc-output').value;
+        payload.keepNames = document.getElementById('doc-keep-names').checked;
       }
 
       return payload;
@@ -620,13 +470,13 @@
     function downloadJson(payload) {
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'mes-fichiers-traitement.json';
-      link.textContent = 'Télécharger la configuration du traitement';
-      link.className = 'fr-link';
-      resultBox.innerHTML = '';
-      resultBox.appendChild(link);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mes-fichiers-traitement.json';
+      a.className = 'fr-link';
+      a.textContent = 'Télécharger la configuration (JSON)';
+      result.innerHTML = '';
+      result.appendChild(a);
     }
 
     function escapeHtml(text) {
@@ -634,30 +484,97 @@
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
+        .replace(/\"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
 
-    uploads.forEach(input => {
-      input.addEventListener('change', onFilesSelected);
+    function resetAll() {
+      uploadAny.value = '';
+      resetBtn.disabled = true;
+
+      state.allFiles = [];
+      Object.keys(state.groups).forEach(k => state.groups[k] = []);
+      state.active = null;
+
+      detectCard.classList.add('app-hidden');
+      optionsCard.classList.add('app-hidden');
+      categoryChooser.classList.add('app-hidden');
+      categoryRadios.innerHTML = '';
+      filesTbody.innerHTML = '';
+      detectSummary.innerHTML = '';
+      clearUI();
+    }
+
+    uploadAny.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      resetAll();
+      resetBtn.disabled = false;
+
+      state.allFiles = files;
+
+      // regroupe
+      files.forEach(f => {
+        const cat = categorize(f);
+        state.groups[cat].push(f);
+      });
+
+      const available = Object.keys(state.groups).filter(cat => state.groups[cat].length > 0);
+
+      detectCard.classList.remove('app-hidden');
+      renderSummary(available);
+      renderTable();
+      renderChooserIfNeeded(available);
+
+      // catégorie active
+      const defaultCat = available[0] || null;
+      if (defaultCat) {
+        // si "other" seul -> on affiche le panneau documents (conversion simple)
+        const chosen = (defaultCat === 'other' && available.length === 1) ? 'documents' : defaultCat;
+        state.active = chosen;
+
+        // si mix, on choisit le 1er, mais l’utilisateur peut changer
+        setActive(chosen);
+      }
+
+      clearUI();
     });
 
-    resetButton.addEventListener('click', resetAll);
+    resetBtn.addEventListener('click', resetAll);
 
-    optionsForm.addEventListener('submit', event => {
-      event.preventDefault();
+    // PDF pages toggle
+    document.getElementById('pdf-action').addEventListener('change', (e) => {
+      togglePdfPages(e.target.value);
+    });
 
-      if (!state.category || !state.files.length) {
-        showStatus('Ajoute d’abord au moins un fichier dans une catégorie.', true);
+    optionsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (!state.active) {
+        statusAlert.classList.remove('app-hidden');
+        statusText.textContent = 'Ajoute d’abord des fichiers pour afficher les options.';
         return;
       }
 
+      // validation légère PDF
+      if (state.active === 'pdf') {
+        const action = document.getElementById('pdf-action').value;
+        const pages = document.getElementById('pdf-pages').value.trim();
+        if ((action === 'extract' || action === 'reorder') && !pages) {
+          statusAlert.classList.remove('app-hidden');
+          statusText.textContent = 'Indique les pages concernées (ex. 1-3,5,7-9).';
+          return;
+        }
+      }
+
       const payload = buildPayload();
-      showStatus('Configuration prête. La couche d’interface DSFR est en place et les paramètres sont bien structurés pour brancher le moteur local de conversion.');
+      statusAlert.classList.remove('app-hidden');
+      statusText.textContent = 'Configuration prête. Tu peux maintenant brancher le moteur local de conversion sur ce JSON.';
       downloadJson(payload);
     });
 
-    renderSummary();
+    resetAll();
   </script>
 </body>
 </html>
