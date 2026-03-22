@@ -358,8 +358,7 @@
 
     function updateStepper(step) {
       const cfg = STEPS[step] || STEPS[1];
-      stepperTitle.childNodes[0].textContent = cfg.title + '
-          ';
+      stepperTitle.childNodes[0].textContent = cfg.title + ' ';
       stepperState.textContent = `Étape ${step} sur 3`;
       stepperSteps.setAttribute('data-fr-current-step', String(step));
 
